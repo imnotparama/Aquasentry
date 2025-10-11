@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env/
+.venv/
+pyarrow_env/
+*.sqlite3
+*.db
+*.egg-info/
+dist/
+build/
+.ipynb_checkpoints/
