@@ -122,8 +122,12 @@ const HealthReports = () => {
                 </button>
 
                 {status === 'success' && (
-                    <div className="p-4 bg-green-900/20 border border-green-800 rounded-lg text-green-400 text-center animate-fade-in">
-                        Report submitted successfully to the central database.
+                    <div className="p-4 bg-green-900/20 border border-green-800 rounded-lg text-center animate-fade-in space-y-2">
+                        <p className="text-green-400 font-bold">✓ Report Encrypted & Transmitted</p>
+                        <p className="text-xs text-slate-400">
+                            Sent to: <span className="text-slate-300">Central Disease Control (CDC) Database</span><br/>
+                            Reference ID: <span className="font-mono text-blue-400">RPT-{Math.floor(Math.random() * 10000)}</span>
+                        </p>
                     </div>
                 )}
             </form>

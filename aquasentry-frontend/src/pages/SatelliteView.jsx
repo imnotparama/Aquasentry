@@ -50,6 +50,49 @@ const SatelliteView = () => {
                 <p className="text-slate-400">Layer 1: Optical Detection of Turbidity & Chlorophyll</p>
             </header>
 
+            {/* Fetch Live Data Section (Sentinel Hub) */}
+            <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                    <span className="p-1 bg-purple-500/20 rounded text-purple-400"><Upload size={16} /></span>
+                    Fetch Live Sentinel-2 Data
+                </h3>
+                <div className="flex gap-4 items-end">
+                    <div>
+                        <label className="block text-xs text-slate-400 mb-1">Region Name</label>
+                        <input type="text" placeholder="e.g. Ganges Delta" className="bg-slate-950 border border-slate-700 rounded p-2 text-sm text-white w-48" id="fetch-name" />
+                    </div>
+                    <div>
+                        <label className="block text-xs text-slate-400 mb-1">Latitude</label>
+                        <input type="number" placeholder="22.57" className="bg-slate-950 border border-slate-700 rounded p-2 text-sm text-white w-24" id="fetch-lat" />
+                    </div>
+                    <div>
+                        <label className="block text-xs text-slate-400 mb-1">Longitude</label>
+                        <input type="number" placeholder="88.36" className="bg-slate-950 border border-slate-700 rounded p-2 text-sm text-white w-24" id="fetch-lon" />
+                    </div>
+                    <button 
+                        onClick={async () => {
+                            const name = document.getElementById('fetch-name').value;
+                            const lat = document.getElementById('fetch-lat').value;
+                            const lon = document.getElementById('fetch-lon').value;
+                            if(!lat || !lon) return alert("Please enter coordinates");
+                            
+                            setUploading(true);
+                            try {
+                                await api.post('satellite/fetch_live/', { location_name: name, lat, lon });
+                                fetchImages();
+                            } catch (err) {
+                                alert("Fetch failed. Ensure Sentinel API Keys are set in backend.");
+                            } finally {
+                                setUploading(false);
+                            }
+                        }}
+                        className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors h-10"
+                    >
+                        Fetch Satellite Feed
+                    </button>
+                </div>
+            </div>
+
             {/* Upload Section */}
             <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-8 text-center hover:border-blue-500/50 transition-colors border-dashed">
                 <input 
