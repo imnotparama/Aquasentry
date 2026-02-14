@@ -14,12 +14,20 @@ class Command(BaseCommand):
         try:
             while True:
                 for sensor_id in sensor_ids:
-                    # Generate random realistic values
-                    ph = round(random.uniform(6.5, 8.5), 2)
-                    turbidity = round(random.uniform(0.5, 5.0), 2)
+                    # Generate random values with occasional "CONTAMINATION EVENT" (20% chance)
+                    if random.random() < 0.2:
+                        # CONTAMINATED WATER DETECTED
+                        ph = round(random.uniform(4.0, 6.0) if random.random() < 0.5 else random.uniform(9.0, 10.0), 2)
+                        turbidity = round(random.uniform(15.0, 50.0), 2) # Very muddy
+                        cond = round(random.uniform(800, 1500), 0) # High conductivity
+                    else:
+                        # SAFE WATER
+                        ph = round(random.uniform(6.5, 8.5), 2)
+                        turbidity = round(random.uniform(0.5, 5.0), 2)
+                        cond = round(random.uniform(300, 600), 0)
+
                     temp = round(random.uniform(20.0, 30.0), 1)
                     do = round(random.uniform(6.0, 9.0), 2)
-                    cond = round(random.uniform(300, 600), 0)
                     
                     WaterSensor.objects.create(
                         sensor_id=sensor_id,
